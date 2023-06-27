@@ -9,7 +9,7 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>Max.io</groupId>
-	<artifactId>MaXGames-Swagger</artifactId>
+	<artifactId>MaXGames-Swagger-PostGres</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>MaXGames-Swagger</name>
 	<description>Auth</description>
