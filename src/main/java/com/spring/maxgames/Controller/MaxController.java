@@ -24,7 +24,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin("https://max-games.netlify.app/")
+@CrossOrigin("https://max-games.vercel.app/")
 public class MaxController {
 
 	@Autowired
