@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.spring.maxgames.AuthModel.Auth;
@@ -25,7 +26,7 @@ public class MaxService {
 	@Autowired
 	private PostRepo pRepo;
 
-//Login
+	// Login
 	public String Loginx(String username, String password) {
 		Auth userx = aRepo.findByusername(username);
 		if (userx == null) {
@@ -39,7 +40,7 @@ public class MaxService {
 		}
 	}
 
-//SignUp
+	// SignUp
 	public String SignUpx(Auth userx) {
 		String username = userx.getUsername();
 		Auth userxAuth = aRepo.findByusername(username);
@@ -55,27 +56,27 @@ public class MaxService {
 		}
 	}
 
-//Users
+	// Users
 	public List<Auth> Users() {
 		return aRepo.findAll();
 	}
 
-//List Games
+	// List Games
 	public List<Data> Games() {
 		return dRepo.findAll();
 	}
 
-//View Game
+	// View Game
 	public Optional<Data> viewGame(Long id) {
 		return dRepo.findById(id);
 	}
 
-//Add Game
+	// Add Game
 	public Data addGame(Data gamex) {
 		return dRepo.save(gamex);
 	}
 
-//Edit Game
+	// Edit Game
 	public Data editGame(Data gamex, Long id) {
 		Data gamez = dRepo.findById(id).orElse(null);
 		if (gamez != null) {
@@ -97,60 +98,60 @@ public class MaxService {
 		}
 	}
 
-//Delete Game
+	// Delete Game
 	public String deleteGame(Long id) {
 		dRepo.deleteById(id);
 		return "deleted";
 	}
 
-//Sort Games (Ascending)
+	// Sort Games (Ascending)
 	public List<Data> sortGameA(String field) {
 		return dRepo.findAll(Sort.by(field).ascending());
 	}
 
-// Sort Games (Descending)
+	// Sort Games (Descending)
 	public List<Data> sortGameD(String field) {
 		return dRepo.findAll(Sort.by(field).descending());
 	}
 
-// Pagination for Games
+	// Pagination for Games
 	public List<Data> pagingGames(int offset, int size) {
 		Page<Data> xPage = dRepo.findAll(PageRequest.of(offset, size));
 		return xPage.getContent();
 	}
 
-//	Pagination & Sorting Combined
+	// Pagination & Sorting Combined
 	public List<Data> pagingsortingGames(int offset, int size, String field) {
 		Page<Data> xPage = dRepo.findAll(PageRequest.of(offset, size, Sort.by(field).ascending()));
 		return xPage.getContent();
 	}
 
-// Find by Game type
+	// Find by Game type
 	public List<Data> findGamebyType(String field_data) {
 		return dRepo.findByGametype(field_data);
 	}
 
-// List Game types
+	// List Game types
 	public List<String> getallGameTypes() {
 		return dRepo.findAllGameTypes();
 	}
 
-// List Each Game's 1st cover url
+	// List Each Game's 1st cover url
 	public List<String> getAllCoverUrl1() {
 		return dRepo.findCoverUrl1();
 	}
 
-// List Posts
+	// List Posts
 	public List<Post> posts() {
 		return pRepo.findAll();
 	}
 
-// Add Post
+	// Add Post
 	public Post addPost(Post postx) {
 		return pRepo.save(postx);
 	}
 
-// Edit Post    
+	// Edit Post
 	public Post editPost(Post postx, Long id) {
 		Post postz = pRepo.findById(id).orElse(postx);
 		if (postz != null) {
@@ -166,9 +167,14 @@ public class MaxService {
 
 	}
 
-// Delete Post
+	// Delete Post
 	public String deletePost(Long id) {
 		dRepo.deleteById(id);
 		return "Post Deleted";
+	}
+
+	@Scheduled(fixedRate = 600000)
+	public void reportServerStatus() {
+		System.out.println("Server is active!");
 	}
 }
